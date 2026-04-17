@@ -1,0 +1,177 @@
+{
+	"name": "NYC_Analysis",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "19eb74b3-fa49-44e8-b32e-d52de117633c"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"ba599cf6-5bb1-44b5-bc3c-51001043b943": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"0": "1",
+										"1": "65692.71000000025",
+										"2": "2.607991980626474"
+									},
+									{
+										"0": "2",
+										"1": "8242.45000000001",
+										"2": "2.6401185137732255"
+									},
+									{
+										"0": "3",
+										"1": "922.61",
+										"2": "3.225909090909091"
+									},
+									{
+										"0": "4",
+										"1": "377.14000000000016",
+										"2": "3.626346153846155"
+									},
+									{
+										"0": "5",
+										"1": "2088.6599999999976",
+										"2": "2.4776512455515984"
+									},
+									{
+										"0": "6",
+										"1": "1337.3700000000003",
+										"2": "2.282201365187714"
+									},
+									{
+										"0": "7",
+										"1": "19.14",
+										"2": "4.785"
+									},
+									{
+										"0": "8",
+										"1": "0.04",
+										"2": "0.04"
+									}
+								],
+								"schema": [
+									{
+										"key": "0",
+										"name": "passenger_count",
+										"type": "bigint"
+									},
+									{
+										"key": "1",
+										"name": "SumTripDistance",
+										"type": "double"
+									},
+									{
+										"key": "2",
+										"name": "AvgTripDistance",
+										"type": "double"
+									}
+								],
+								"truncated": false
+							},
+							"isSummary": false,
+							"language": "scala",
+							"wranglerEntryContext": {
+								"candidateVariableNames": [
+									"df"
+								],
+								"dataframeType": "pyspark"
+							}
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "sum",
+									"categoryFieldKeys": [
+										"1"
+									],
+									"seriesFieldKeys": [
+										"0"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/bf8e410c-5c05-4c36-b3b7-3eb2425cc995/resourceGroups/SireeshaResourceGroup/providers/Microsoft.Synapse/workspaces/synapseworkspace28/bigDataPools/spark1",
+				"name": "spark1",
+				"type": "Spark",
+				"endpoint": "https://synapseworkspace28.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.5",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\n",
+					"df = spark.sql(\"\"\"\n",
+					"   SELECT passenger_count,\n",
+					"       SUM(trip_distance) as SumTripDistance,\n",
+					"       AVG(trip_distance) as AvgTripDistance\n",
+					"   FROM nyctaxi.trip\n",
+					"   WHERE trip_distance > 0 AND passenger_count > 0\n",
+					"   GROUP BY passenger_count\n",
+					"   ORDER BY passenger_count\n",
+					"\"\"\") \n",
+					"display(df)\n",
+					"df.write.saveAsTable(\"nyctaxi.passengercountstats\")"
+				],
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					""
+				]
+			}
+		]
+	}
+}

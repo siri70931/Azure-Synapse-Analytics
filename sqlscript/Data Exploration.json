@@ -1,0 +1,17 @@
+{
+	"name": "Data Exploration",
+	"properties": {
+		"content": {
+			"query": "CREATE DATABASE DataExplorationDB \n                COLLATE Latin1_General_100_BIN2_UTF8\n        \nCREATE EXTERNAL DATA SOURCE datalake_ds\nWITH ( LOCATION = 'https://sireeshastoragegroup.dfs.core.windows.net')\n\nCREATE LOGIN Sireesha \nWITH PASSWORD = 'Gandlapathi@7093185600';\n\nCREATE USER Sireesha FOR LOGIN Sireesha;\nGO\nGRANT ADMINISTER DATABASE BULK OPERATIONS TO Sireesha;\nGO\n\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n            BULK '/synapsedatalake/NYCTripSmall.parquet',\n            DATA_SOURCE = 'datalake_ds',\n            FORMAT='PARQUET'\n    ) AS [result]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

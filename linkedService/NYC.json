@@ -1,0 +1,12 @@
+{
+	"name": "NYC",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "PowerBIWorkspace",
+		"typeProperties": {
+			"workspaceID": "https://app.powerbi.com/groups/ed259a7e-1f19-4d74-bbad-c8dd9af1571a/list?experience=power-bi",
+			"tenantID": "c56ae84d-81ef-48dc-a12a-6e5515329663"
+		}
+	}
+}
